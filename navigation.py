@@ -1,24 +1,25 @@
-# Controls vehicle motors using Mock GPIO
+# Controls vehicle motors
+
 import Mock.GPIO as GPIO
-import time
 
-GPIO.setmode(GPIO.BCM)
-
-# Initialize GPIO pins safely
-pins = [3, 6, 7, 8]
+# Initialize GPIO pins
+pins = list(range(1, 14))
 for pin in pins:
     GPIO.setup(pin, GPIO.OUT)
 
+GPIO.setmode(GPIO.BCM)
+
 class BasicNavigation:
-    def __init__(self):
-        print("Navigation system initialized.")
+    def __init__(self, distance=0, angle=0):
+        self.distance = distance
+        self.angle = angle
 
     def go_straight(self):
+        # Activate motors to move forward
         GPIO.output(3, GPIO.HIGH)
         GPIO.output(6, GPIO.HIGH)
         GPIO.output(7, GPIO.HIGH)
         GPIO.output(8, GPIO.HIGH)
-        print("Moving forward...")
 
     def turn(self, direction):
         if direction == "left":
@@ -26,17 +27,12 @@ class BasicNavigation:
             GPIO.output(6, GPIO.LOW)
             GPIO.output(7, GPIO.LOW)
             GPIO.output(8, GPIO.HIGH)
-            print("Turning left...")
         elif direction == "right":
             GPIO.output(3, GPIO.LOW)
             GPIO.output(6, GPIO.HIGH)
             GPIO.output(7, GPIO.HIGH)
             GPIO.output(8, GPIO.LOW)
-            print("Turning right...")
-        else:
-            print("Invalid turn direction specified.")
 
     def stop(self):
-        for pin in [3, 6, 7, 8]:
+        for pin in range(1, 5):
             GPIO.output(pin, GPIO.LOW)
-        print("Motors stopped.")
