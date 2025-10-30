@@ -1,5 +1,6 @@
 from navigation import BasicNavigation
 from obstacle_avoidance import ObstacleAvoidance
+import model
 import time
 
 def main():
@@ -8,16 +9,23 @@ def main():
 
     try:
         while True:
-            obstactle_detected = False
-            if (obstacle_sensor.detect_obstacle == True):
-                obstacle_sensor.avoid_obstacle(nav)
-                obstactle_detected == False
-            else:
-                nav.go_straight()
-            time.sleep(0.1)
+            obstacle_detected = False
+            
+            nav.go_straight()
+            
+            if obstacle_sensor.detect_obstacle == True:
+                obstacle_detected = True
+                if model.Model_Run.confidence_score >= 80:
+                    nav.stop()
+                    obstacle_sensor.avoid_obstacle(nav)
+                    time.sleep(1)
+                    
+                obstacle_detected = False
+                
     except KeyboardInterrupt:
         nav.stop()
         print("Stopped by user")
 
 if __name__ == "__main__":
     main()
+    print('running')
