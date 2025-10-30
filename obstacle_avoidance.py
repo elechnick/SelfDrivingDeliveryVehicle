@@ -36,7 +36,7 @@ class ObstacleAvoidance:
 
     def detect_obstacle(self, threshold=10):
        #  detects if there is an obstacle within threshold distance (cm).
-       #  returns True if obstacle detected, False otherwise.
+       #  returns true if obstacle detected, False otherwise.
 
         distance = self.get_distance()
         return distance < threshold
